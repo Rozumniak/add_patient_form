@@ -14,17 +14,17 @@ function App() {
         console.log(JSON.parse(localStorage.getItem('values')))
 
     }
-        return(<div>
-            <Form submitSuccess={submitSuccess}/>
-            <Modal isSubmited={isSubmited} setSubmited={setSubmited}>
-                <button className={"modal__button"} onClick={()=>setSubmited(false)}>
-                    <img className={"modal__button img"} src={close}/>
-                </button>
-                <p>
-                    Пользователь успешно создан
-                </p>
-            </Modal>
-        </div>)
+    return (<div>
+        <Form submitSuccess={submitSuccess}/>
+        <Modal isSubmited={isSubmited} setSubmited={setSubmited}>
+            <button className={"modal__button"} onClick={() => setSubmited(false)}>
+                <img className={"modal__button img"} src={close}/>
+            </button>
+            <p>
+                Пользователь успешно создан
+            </p>
+        </Modal>
+    </div>)
 
 
 }
@@ -55,7 +55,7 @@ function Form(props) {
                         region: '',
                         city: '',
                         street: '',
-                        streetNumder: '',
+                        streetNumber: '',
                         zip: '',
                         serial: '',
                         number: '',
@@ -197,7 +197,12 @@ function Form(props) {
                                            value={values.street}
                                            name={"street"}
                                            placeholder={"Улица"}/>
-                                    <input className={"row__item"} placeholder={"Дом"}/>
+                                    <input className={"row__item"}
+                                           onChange={handleChange}
+                                           onBlur={handleBlur}
+                                           value={values.streetNumber}
+                                           name={"streetNumber"}
+                                           placeholder={"Дом"}/>
                                 </div>
                                 <input className={"adressInfo__input"} name={"zip"} onChange={handleChange}
                                        onBlur={handleBlur}
@@ -222,11 +227,31 @@ function Form(props) {
                                 </option>
                             </select>
                             <div className={cn("adressInfo__flexRow", "row")}>
-                                <input className={"row__item left"} placeholder={"Серия"}/>
-                                <input className={"row__item"} placeholder={"Номер"}/>
+                                <input className={"row__item left"}
+                                       onChange={handleChange}
+                                       onBlur={handleBlur}
+                                       value={values.serial}
+                                       name={"serial"}
+                                       placeholder={"Серия"}/>
+                                <input className={"row__item"}
+                                       placeholder={"Номер"}
+                                       onChange={handleChange}
+                                       onBlur={handleBlur}
+                                       value={values.number}
+                                       name={"number"}/>
                             </div>
-                            <input className={"adressInfo__input"} placeholder={"Кем выдан"}/>
-                            <input className={"adressInfo__input"} placeholder={" *Дата выдачи"}/>
+                            <input className={"adressInfo__input"}
+                                   onChange={handleChange}
+                                   onBlur={handleBlur}
+                                   value={values.subdivision}
+                                   name={"subdivision"}
+                                   placeholder={"Кем выдан"}/>
+                            <input className={"adressInfo__input"}
+                                   onChange={handleChange}
+                                   onBlur={handleBlur}
+                                   value={values.issueDate}
+                                   name={"issueDate"}
+                                   placeholder={" *Дата выдачи"}/>
 
                             <button
                                 className={"form__button"}
@@ -239,13 +264,14 @@ function Form(props) {
         </div>
     )
 }
+
 const Modal = ({isSubmited, setSubmited, children}) => {
-    return(
-      <div className={isSubmited?"modal active":"modal"} onClick={()=> setSubmited(false)}>
-          <div className={isSubmited ? "modal__content active":"modal__content"} onClick={e=> e.stopPropagation()}>
-              {children}
-          </div>
-      </div>
+    return (
+        <div className={isSubmited ? "modal active" : "modal"} onClick={() => setSubmited(false)}>
+            <div className={isSubmited ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
+                {children}
+            </div>
+        </div>
     );
 }
 
