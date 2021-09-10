@@ -4,6 +4,8 @@ import {Formik} from "formik";
 import cn from "classnames";
 import * as yup from 'yup'
 import close from "./img/close.png"
+import arrowDown from "./img/arrow_down.png"
+import arrowUp from "./img/arrow_up.png"
 
 
 function App() {
@@ -14,6 +16,7 @@ function App() {
         console.log(JSON.parse(localStorage.getItem('values')))
 
     }
+
     return (<div>
         <Form submitSuccess={submitSuccess}/>
         <Modal isSubmited={isSubmited} setSubmited={setSubmited}>
@@ -39,6 +42,15 @@ function Form(props) {
         sms: yup.boolean().typeError('Должно быть boolean').required('Обязательно'),
         zip: yup.string().typeError('Должно быть строкой'),
     })
+    const [selectGroup, setSelectGroup] = useState(false)
+    const [clientGroup, setClientGroup] = useState('')
+    const setClientType = (e, value, setFieldValue) => {
+        e.preventDefault();
+        setClientGroup(value)
+        setFieldValue('typeOfPatient',value)
+        setSelectGroup(false);
+    }
+
     return (
         <div className={"wrapper"}>
             <div className={"content"}>
@@ -61,6 +73,7 @@ function Form(props) {
                         number: '',
                         subdivision: '',
                         issueDate: '',
+                        typeOfPatient: '',
                     }}
                     validateOnBlur
                     onSubmit={(values) => {
@@ -72,7 +85,7 @@ function Form(props) {
                     {({
                           values, errors, touched,
                           handleChange, handleBlur,
-                          isValid, handleSubmit, dirty
+                          isValid, handleSubmit, dirty,setFieldValue
                       }) => (
                         <form className={"form"}>
                             <div className={cn("form__block", "generalInfo")}>
@@ -126,20 +139,38 @@ function Form(props) {
                                        placeholder={" *Номер телефона"}/>
                                 {touched.telephoneNumber && errors.telephoneNumber &&
                                 <p className={'error'}>{errors.telephoneNumber}</p>}
-                                <select className={cn("generalInfo__select")}>
-                                    <option>
-                                        *Группа клиентов
-                                    </option>
-                                    <option>
-                                        VIP
-                                    </option>
-                                    <option>
-                                        ОМС
-                                    </option>
-                                    <option>
-                                        Проблемные
-                                    </option>
-                                </select>
+
+                                {!selectGroup ?
+                                    <div className={"form__select clientGroup"} onClick={() => setSelectGroup(true)}>
+                                        <label className={"clientGroup__label"}>
+                                            {clientGroup==='' ? "*Группа клиентов" : clientGroup}
+                                        </label>
+                                        <img className={"clientGroup__img"} src={arrowDown}/>
+                                    </div>
+                                    : <div className={"form__select clientGroup"} onClick={() => setSelectGroup(false)}>
+                                        <label className={"clientGroup__label"}>
+                                            {clientGroup===''? "*Группа клиентов" : clientGroup}
+                                        </label>
+                                        <img className={"clientGroup__img"} src={arrowUp}/>
+                                    </div>}
+
+                                    {selectGroup ?
+                                    <div className={"clientGroup__list"}>
+                                        <label className={clientGroup === "vip" ? "clientGroup__label active" : "none"}
+                                               onClick={(e) => setClientType(e, "VIP", setFieldValue)}>
+                                            VIP
+                                        </label>
+                                        <label className={clientGroup === "oms" ? "clientGroup__label active" : "none"}
+                                               onClick={(e) => setClientType(e, "ОМС", setFieldValue)}>
+                                            ОМС
+                                        </label>
+                                        <label
+                                            className={clientGroup === "problem" ? "clientGroup__label active" : "none"}
+                                            onClick={(e) => setClientType(e, "Проблемные", setFieldValue)}>
+                                            Проблемные
+                                        </label>
+                                    </div> : null}
+
                                 <select className={cn("generalInfo__select")}>
                                     <option>
                                         *Лечащий врач
