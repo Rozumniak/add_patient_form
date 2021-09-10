@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/patient-form/static/css/main.d11cedf0.chunk.css",
+    "main.css": "/patient-form/static/css/main.6deabd7a.chunk.css",
     "main.js": "/patient-form/static/js/main.a9235365.chunk.js",
     "main.js.map": "/patient-form/static/js/main.a9235365.chunk.js.map",
     "runtime-main.js": "/patient-form/static/js/runtime-main.6377c920.js",
@@ -10,14 +10,14 @@
     "static/js/3.7bb4f0d6.chunk.js": "/patient-form/static/js/3.7bb4f0d6.chunk.js",
     "static/js/3.7bb4f0d6.chunk.js.map": "/patient-form/static/js/3.7bb4f0d6.chunk.js.map",
     "index.html": "/patient-form/index.html",
-    "static/css/main.d11cedf0.chunk.css.map": "/patient-form/static/css/main.d11cedf0.chunk.css.map",
+    "static/css/main.6deabd7a.chunk.css.map": "/patient-form/static/css/main.6deabd7a.chunk.css.map",
     "static/js/2.b7c1fdbf.chunk.js.LICENSE.txt": "/patient-form/static/js/2.b7c1fdbf.chunk.js.LICENSE.txt",
     "static/media/App.css": "/patient-form/static/media/background.0164ebb3.png"
   },
   "entrypoints": [
     "static/js/runtime-main.6377c920.js",
     "static/js/2.b7c1fdbf.chunk.js",
-    "static/css/main.d11cedf0.chunk.css",
+    "static/css/main.6deabd7a.chunk.css",
     "static/js/main.a9235365.chunk.js"
   ]
 }
