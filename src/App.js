@@ -41,15 +41,34 @@ function Form(props) {
         telephoneNumber: yup.string().typeError('Должно быть строкой').required('Обязательно'),
         sms: yup.boolean().typeError('Должно быть boolean').required('Обязательно'),
         zip: yup.string().typeError('Должно быть строкой'),
+        typeOfPatient: yup.string().typeError('Должно быть строкой').required('Обязательно'),
+        doctor: yup.string().typeError('Должно быть строкой').required('Обязательно'),
+        document: yup.string().typeError('Должно быть строкой').required('Обязательно'),
     })
-    const [selectGroup, setSelectGroup] = useState(false)
-    const [clientGroup, setClientGroup] = useState('')
-    const setClientType = (e, value, setFieldValue) => {
+
+    const [selectedGroup, setSelectedGroup] = useState('')
+    const [patientSelectorOpen, setPatientSelectorOpen] = useState(false)
+    const [selectedDoctorGroup, setSelectedDoctorGroup] = useState('')
+    const [doctorSelectorOpen, setDoctorSelectorOpen] = useState(false)
+    const [selectedDocumentGroup, setSelectedDocumentGroup] = useState('')
+    const [documentSelectorOpen, setDocumentSelectorOpen] = useState(false)
+    const setSelectorValue = (e, value, setFieldValue, fieldValue, selectorType) => {
         e.preventDefault();
-        setClientGroup(value)
-        setFieldValue('typeOfPatient',value)
-        setSelectGroup(false);
+        if (selectorType === 'patient'){
+            setSelectedGroup(value);
+            setPatientSelectorOpen(false)
+        }
+        else if(selectorType === 'doctor'){
+            setSelectedDoctorGroup(value);
+            setDoctorSelectorOpen(false)
+        }
+        else if (selectorType === 'document'){
+            setSelectedDocumentGroup(value);
+            setDocumentSelectorOpen(false)
+        }
+        setFieldValue(fieldValue, value);
     }
+    let arr = ['VIP', 'ОМС', 'Проблемные'];
 
     return (
         <div className={"wrapper"}>
@@ -74,6 +93,8 @@ function Form(props) {
                         subdivision: '',
                         issueDate: '',
                         typeOfPatient: '',
+                        doctor: '',
+                        document: '',
                     }}
                     validateOnBlur
                     onSubmit={(values) => {
@@ -85,7 +106,7 @@ function Form(props) {
                     {({
                           values, errors, touched,
                           handleChange, handleBlur,
-                          isValid, handleSubmit, dirty,setFieldValue
+                          isValid, handleSubmit, dirty, setFieldValue
                       }) => (
                         <form className={"form"}>
                             <div className={cn("form__block", "generalInfo")}>
@@ -139,62 +160,61 @@ function Form(props) {
                                        placeholder={" *Номер телефона"}/>
                                 {touched.telephoneNumber && errors.telephoneNumber &&
                                 <p className={'error'}>{errors.telephoneNumber}</p>}
+                                <CustomSelector selectedGroup={selectedGroup} setSelectedGroup={setSelectedGroup}
+                                                setFieldValue={setFieldValue} selectorOpen={patientSelectorOpen}
+                                                setSelectorOpen={setPatientSelectorOpen}
+                                                setSelectorValue={setSelectorValue}
+                                                arr={arr} selectorName={"*Группа клиентов"}>
 
-                                {!selectGroup ?
-                                    <div className={"form__select clientGroup"} onClick={() => setSelectGroup(true)}>
-                                        <label className={"clientGroup__label"}>
-                                            {clientGroup==='' ? "*Группа клиентов" : clientGroup}
-                                        </label>
-                                        <img className={"clientGroup__img"} src={arrowDown}/>
-                                    </div>
-                                    : <div className={"form__select clientGroup"} onClick={() => setSelectGroup(false)}>
-                                        <label className={"clientGroup__label"}>
-                                            {clientGroup===''? "*Группа клиентов" : clientGroup}
-                                        </label>
-                                        <img className={"clientGroup__img"} src={arrowUp}/>
-                                    </div>}
+                                    <label className={selectedGroup === arr[0] ? "clientGroup__label active" : "none"}
+                                           onClick={(e) => setSelectorValue(e, arr[0], setFieldValue, 'typeOfPatient', 'patient')}>
+                                        {arr[0]}
+                                    </label>
+                                    <label className={selectedGroup === arr[1] ? "clientGroup__label active" : "none"}
+                                           onClick={(e) => setSelectorValue(e, arr[1], setFieldValue, 'typeOfPatient', 'patient')}>
+                                        {arr[1]}
+                                    </label>
+                                    <label
+                                        className={selectedGroup === arr[2] ? "clientGroup__label active" : "none"}
+                                        onClick={(e) => setSelectorValue(e, arr[2], setFieldValue, 'typeOfPatient', 'patient')}>
+                                        {arr[2]}
+                                    </label>
+                                </CustomSelector>
+                                {errors.typeOfPatient &&
+                                <p className={'error'}>{errors.typeOfPatient}</p>}
+                                <CustomSelector selectedGroup={selectedDoctorGroup}
+                                                setSelectedGroup={setSelectedDoctorGroup}
+                                                setFieldValue={setFieldValue} selectorOpen={doctorSelectorOpen}
+                                                setSelectorOpen={setDoctorSelectorOpen}
+                                                setSelectorValue={setSelectorValue}
+                                                arr={arr} selectorName={"*Лечащий врач"}>
 
-                                    {selectGroup ?
-                                    <div className={"clientGroup__list"}>
-                                        <label className={clientGroup === "vip" ? "clientGroup__label active" : "none"}
-                                               onClick={(e) => setClientType(e, "VIP", setFieldValue)}>
-                                            VIP
-                                        </label>
-                                        <label className={clientGroup === "oms" ? "clientGroup__label active" : "none"}
-                                               onClick={(e) => setClientType(e, "ОМС", setFieldValue)}>
-                                            ОМС
-                                        </label>
-                                        <label
-                                            className={clientGroup === "problem" ? "clientGroup__label active" : "none"}
-                                            onClick={(e) => setClientType(e, "Проблемные", setFieldValue)}>
-                                            Проблемные
-                                        </label>
-                                    </div> : null}
-
-                                <select className={cn("generalInfo__select")}>
-                                    <option>
-                                        *Лечащий врач
-                                    </option>
-                                    <option>
-                                        Петров А. А.
-                                    </option>
-                                    <option>
-                                        Сидоров В. В.
-                                    </option>
-                                    <option>
-                                        Сыркина В. В.
-                                    </option>
-                                </select>
-                                <div className={cn("generalInfo__flexRow")}>
+                                    <label className={selectedGroup === "Иванов П. С." ? "clientGroup__label active" : "none"}
+                                           onClick={(e) => setSelectorValue(e, "Иванов П. С.", setFieldValue, 'doctor', 'doctor')}>
+                                        {"Иванов П. С."}
+                                    </label>
+                                    <label className={selectedGroup === "Сергеева М. Ф." ? "clientGroup__label active" : "none"}
+                                           onClick={(e) => setSelectorValue(e, "Сергеева М. Ф.", setFieldValue, 'doctor', 'doctor')}>
+                                        {"Сергеева М. Ф."}
+                                    </label>
+                                    <label
+                                        className={selectedGroup === "Криворученко С. Н." ? "clientGroup__label active" : "none"}
+                                        onClick={(e) => setSelectorValue(e, 'Криворученко С. Н.', setFieldValue, 'doctor', 'doctor')}>
+                                        {"Криворученко С. Н."}
+                                    </label>
+                                </CustomSelector>
+                                {errors.doctor &&
+                                <p className={'error'}>{errors.doctor}</p>}
+                                <div className={cn("generalInfo__flexRow", "sms")}>
                                     <input
-                                        className={"row__item"}
+                                        className={"row__item_sms left"}
                                         type={"checkbox"}
                                         name={"sms"}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.sms}/>
                                     {touched.sms && errors.sms && <p className={'error'}>{errors.sms}</p>}
-                                    <div className={"row__item"}>
+                                    <div className={"row__item_sms"}>
                                         Не отправлять СМС
                                     </div>
                                 </div>
@@ -243,20 +263,29 @@ function Form(props) {
                             <label className={"adressInfo__label small__label"}>
                                 Данные:
                             </label>
-                            <select className={"adressInfo__select"}>
-                                <option>
-                                    *Тип документа
-                                </option>
-                                <option>
-                                    Паспорт
-                                </option>
-                                <option>
-                                    видетельство о рождении
-                                </option>
-                                <option>
-                                    Водительское удостоверение
-                                </option>
-                            </select>
+                            <CustomSelector selectedGroup={selectedDocumentGroup} setSelectedGroup={setSelectedDocumentGroup}
+                                            setFieldValue={setFieldValue} selectorOpen={documentSelectorOpen}
+                                            setSelectorOpen={setDocumentSelectorOpen}
+                                            setSelectorValue={setSelectorValue}
+                                            arr={arr} selectorName={"*Тип документа"}>
+
+                                <label className={selectedGroup === "Паспорт" ? "clientGroup__label active" : "none"}
+                                       onClick={(e) => setSelectorValue(e, "Паспорт", setFieldValue, 'document', 'document')}>
+                                    {'Паспорт'}
+                                </label>
+                                <label className={selectedGroup === "Свидетельство о рождении" ? "clientGroup__label active" : "none"}
+                                       onClick={(e) => setSelectorValue(e, "Свидетельство о рождении", setFieldValue, 'document', 'document')}>
+                                    {"Свидетельство о рождении"}
+                                </label>
+                                <label
+                                    className={selectedGroup === "Водительское удостоверение" ? "clientGroup__label active" : "none"}
+                                    onClick={(e) => setSelectorValue(e, "Водительское удостоверение", setFieldValue, 'document', 'document')}>
+                                    {"Водительское удостоверение"}
+                                </label>
+                            </CustomSelector>
+                            {errors.document &&
+                            <p className={'error'}>{errors.document}</p>}
+
                             <div className={cn("adressInfo__flexRow", "row")}>
                                 <input className={"row__item left"}
                                        onChange={handleChange}
@@ -304,6 +333,62 @@ const Modal = ({isSubmited, setSubmited, children}) => {
             </div>
         </div>
     );
+}
+/*const CustomSelector1 = ({selectGroup,setSelectGroup, clientGroup, setClientType, setFieldValue}) => {
+    return<div>
+    {!selectGroup ?
+        <div className={"form__select clientGroup"} onClick={() => setSelectGroup(true)}>
+            <label className={"clientGroup__label"}>
+                {clientGroup === '' ? "*Группа клиентов" : clientGroup}
+            </label>
+            <img className={"clientGroup__img"} src={arrowDown}/>
+        </div>
+        : <div className={"form__select clientGroup"} onClick={() => setSelectGroup(false)}>
+            <label className={"clientGroup__label"}>
+                {clientGroup === '' ? "*Группа клиентов" : clientGroup}
+            </label>
+            <img className={"clientGroup__img"} src={arrowUp}/>
+        </div>}
+
+    {selectGroup ?
+        <div className={"clientGroup__list"}>
+            <label className={clientGroup === "VIP" ? "clientGroup__label active" : "none"}
+                   onClick={(e) => setClientType(e, "VIP", setFieldValue)}>
+                VIP
+            </label>
+            <label className={clientGroup === "ОМС" ? "clientGroup__label active" : "none"}
+                   onClick={(e) => setClientType(e, "ОМС", setFieldValue)}>
+                ОМС
+            </label>
+            <label
+                className={clientGroup === "Проблемные" ? "clientGroup__label active" : "none"}
+                onClick={(e) => setClientType(e, "Проблемные", setFieldValue)}>
+                Проблемные
+            </label>
+        </div> : null}</div>
+}*/
+
+const CustomSelector = ({selectedGroup, setSelectorValue, setFieldValue, arr, selectorName, selectorOpen, setSelectorOpen, children}) => {
+
+    return <div>
+        {!selectorOpen ?
+            <div className={"form__select clientGroup"} onClick={() => setSelectorOpen(true)}>
+                <label className={"clientGroup__label"}>
+                    {selectedGroup === '' ? selectorName : selectedGroup}
+                </label>
+                <img className={"clientGroup__img"} src={arrowDown}/>
+            </div>
+            : <div className={"form__select clientGroup"} onClick={() => setSelectorOpen(false)}>
+                <label className={"clientGroup__label"}>
+                    {selectedGroup === '' ? selectorName : selectedGroup}
+                </label>
+                <img className={"clientGroup__img"} src={arrowUp}/>
+            </div>}
+
+        {selectorOpen ?
+            <div className={"clientGroup__list"}>
+                {children}
+            </div> : null}</div>
 }
 
 export default App;
