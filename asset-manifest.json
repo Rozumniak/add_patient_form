@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/patient-form/static/css/main.96b475d0.chunk.css",
-    "main.js": "/patient-form/static/js/main.a225f837.chunk.js",
-    "main.js.map": "/patient-form/static/js/main.a225f837.chunk.js.map",
+    "main.css": "/patient-form/static/css/main.941ecc60.chunk.css",
+    "main.js": "/patient-form/static/js/main.dc5f1481.chunk.js",
+    "main.js.map": "/patient-form/static/js/main.dc5f1481.chunk.js.map",
     "runtime-main.js": "/patient-form/static/js/runtime-main.6377c920.js",
     "runtime-main.js.map": "/patient-form/static/js/runtime-main.6377c920.js.map",
-    "static/js/2.301b5227.chunk.js": "/patient-form/static/js/2.301b5227.chunk.js",
-    "static/js/2.301b5227.chunk.js.map": "/patient-form/static/js/2.301b5227.chunk.js.map",
+    "static/js/2.670dc4d1.chunk.js": "/patient-form/static/js/2.670dc4d1.chunk.js",
+    "static/js/2.670dc4d1.chunk.js.map": "/patient-form/static/js/2.670dc4d1.chunk.js.map",
     "static/js/3.7bb4f0d6.chunk.js": "/patient-form/static/js/3.7bb4f0d6.chunk.js",
     "static/js/3.7bb4f0d6.chunk.js.map": "/patient-form/static/js/3.7bb4f0d6.chunk.js.map",
     "index.html": "/patient-form/index.html",
-    "static/css/main.96b475d0.chunk.css.map": "/patient-form/static/css/main.96b475d0.chunk.css.map",
-    "static/js/2.301b5227.chunk.js.LICENSE.txt": "/patient-form/static/js/2.301b5227.chunk.js.LICENSE.txt",
+    "static/css/main.941ecc60.chunk.css.map": "/patient-form/static/css/main.941ecc60.chunk.css.map",
+    "static/js/2.670dc4d1.chunk.js.LICENSE.txt": "/patient-form/static/js/2.670dc4d1.chunk.js.LICENSE.txt",
     "static/media/App.css": "/patient-form/static/media/background.0164ebb3.png"
   },
   "entrypoints": [
     "static/js/runtime-main.6377c920.js",
-    "static/js/2.301b5227.chunk.js",
-    "static/css/main.96b475d0.chunk.css",
-    "static/js/main.a225f837.chunk.js"
+    "static/js/2.670dc4d1.chunk.js",
+    "static/css/main.941ecc60.chunk.css",
+    "static/js/main.dc5f1481.chunk.js"
   ]
 }
